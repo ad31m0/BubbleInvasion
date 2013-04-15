@@ -73,8 +73,8 @@ public class GameScreen extends GLScreen {
 		leftBounds = new Rectangle(0, 0, 64, 64);
 		rightBounds = new Rectangle(64, 0, 64, 64);
 		lastScore = 0;
-		lastLives = world.ship.lives;
-		lastWaves = world.waves;
+		lastLives = world.gun.lives;
+		lastWaves = world.level;
 		scoreString = "lives:" + lastLives + " waves:" + lastWaves + " score:"
 				+ lastScore;
 		fpsCounter = new FPSCounter();
@@ -136,11 +136,11 @@ public class GameScreen extends GLScreen {
 		}
 
 		world.update(deltaTime, calculateInputAcceleration());
-		if (world.ship.lives != lastLives || world.score != lastScore
-				|| world.waves != lastWaves) {
-			lastLives = world.ship.lives;
+		if (world.gun.lives != lastLives || world.score != lastScore
+				|| world.level != lastWaves) {
+			lastLives = world.gun.lives;
 			lastScore = world.score;
-			lastWaves = world.waves;
+			lastWaves = world.level;
 			scoreString = "lives:" + lastLives + " waves:" + lastWaves
 					+ " score:" + lastScore;
 		}

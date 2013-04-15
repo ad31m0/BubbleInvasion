@@ -6,9 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 
 import com.ramybelbesy.games.bubbleinvasion.objects.Bubble;
-import com.ramybelbesy.games.bubbleinvasion.objects.Shield;
 import com.ramybelbesy.games.bubbleinvasion.objects.Gun;
-import com.ramybelbesy.games.bubbleinvasion.objects.Shot;
 import com.ramybelbesy.games.framework.gl.AmbientLight;
 import com.ramybelbesy.games.framework.gl.Animation;
 import com.ramybelbesy.games.framework.gl.DirectionalLight;
@@ -41,8 +39,8 @@ public class WorldRenderer {
 
 	public void render(GameData world, float deltaTime) {
 		GL10 gl = glGraphics.getGL();
-		camera.getPosition().x = world.ship.position.x;
-		camera.getLookAt().x = world.ship.position.x;
+		camera.getPosition().x = world.gun.position.x;
+		camera.getLookAt().x = world.gun.position.x;
 		camera.setMatrices(gl);
 		
 		gl.glEnable(GL10.GL_DEPTH_TEST);
@@ -52,13 +50,13 @@ public class WorldRenderer {
 //		ambientLight.enable(gl);
 		directionalLight.enable(gl, GL10.GL_LIGHT0);
 
-		renderShip(gl, world.ship);
+		renderShip(gl, world.gun);
 		renderInvaders(gl, world.invaders, deltaTime);
 
 		gl.glDisable(GL10.GL_TEXTURE_2D);
 
-		renderShields(gl, world.shields);
-		renderShots(gl, world.shots);
+//		renderShields(gl, world.shields);
+//		renderShots(gl, world.shots);
 
 		gl.glDisable(GL10.GL_COLOR_MATERIAL);
 		gl.glDisable(GL10.GL_LIGHTING);
@@ -111,41 +109,41 @@ public class WorldRenderer {
 		Assets.invaderModel.unbind();
 	}
 
-	private void renderShields(GL10 gl, List<Shield> shields) {
-		gl.glEnable(GL10.GL_BLEND);
-		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);		
-		gl.glColor4f(0, 0, 1, 0.4f);
-		Assets.shieldModel.bind();
-		int len = shields.size();
-		for (int i = 0; i < len; i++) {
-			Shield shield = shields.get(i);
-			gl.glPushMatrix();
-			gl.glTranslatef(shield.position.x, shield.position.y,
-					shield.position.z);
-			Assets.shieldModel.draw(GL10.GL_TRIANGLES, 0,
-					Assets.shieldModel.getNumVertices());
-			gl.glPopMatrix();
-		}
-		Assets.shieldModel.unbind();
-		gl.glColor4f(1, 1, 1, 1f);		
-		gl.glDisable(GL10.GL_BLEND);
-	}
+//	private void renderShields(GL10 gl, List<Shield> shields) {
+//		gl.glEnable(GL10.GL_BLEND);
+//		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);		
+//		gl.glColor4f(0, 0, 1, 0.4f);
+//		Assets.shieldModel.bind();
+//		int len = shields.size();
+//		for (int i = 0; i < len; i++) {
+//			Shield shield = shields.get(i);
+//			gl.glPushMatrix();
+//			gl.glTranslatef(shield.position.x, shield.position.y,
+//					shield.position.z);
+//			Assets.shieldModel.draw(GL10.GL_TRIANGLES, 0,
+//					Assets.shieldModel.getNumVertices());
+//			gl.glPopMatrix();
+//		}
+//		Assets.shieldModel.unbind();
+//		gl.glColor4f(1, 1, 1, 1f);		
+//		gl.glDisable(GL10.GL_BLEND);
+//	}
 
-	private void renderShots(GL10 gl, List<Shot> shots) {
-		gl.glColor4f(1, 1, 0, 1);
-		Assets.shotModel.bind();
-		int len = shots.size();
-		for (int i = 0; i < len; i++) {
-			Shot shot = shots.get(i);
-			gl.glPushMatrix();
-			gl.glTranslatef(shot.position.x, shot.position.y, shot.position.z);
-			Assets.shotModel.draw(GL10.GL_TRIANGLES, 0,
-					Assets.shotModel.getNumVertices());
-			gl.glPopMatrix();
-		}
-		Assets.shotModel.unbind();
-		gl.glColor4f(1, 1, 1, 1);
-	}
+//	private void renderShots(GL10 gl, List<Shot> shots) {
+//		gl.glColor4f(1, 1, 0, 1);
+//		Assets.shotModel.bind();
+//		int len = shots.size();
+//		for (int i = 0; i < len; i++) {
+//			Shot shot = shots.get(i);
+//			gl.glPushMatrix();
+//			gl.glTranslatef(shot.position.x, shot.position.y, shot.position.z);
+//			Assets.shotModel.draw(GL10.GL_TRIANGLES, 0,
+//					Assets.shotModel.getNumVertices());
+//			gl.glPopMatrix();
+//		}
+//		Assets.shotModel.unbind();
+//		gl.glColor4f(1, 1, 1, 1);
+//	}
 
 	private void renderExplosion(GL10 gl, Vector3 position, float stateTime) {
 		TextureRegion frame = Assets.explosionAnim.getKeyFrame(stateTime,
